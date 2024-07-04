@@ -1,0 +1,20 @@
+@Override
+public void autofill(SparseArray<AutofillValue> values) {
+    // User has just selected a Dataset from the list of autofill suggestions.
+    // The Dataset is comprised of a list of AutofillValues, with each AutofillValue meant
+    // to fill a specific autofillable view. Now we have to update the UI based on the
+    // AutofillValues in the list.
+    for (int i = 0; i < values.size(); i++) {
+        final int id = values.keyAt(i);
+        final AutofillValue value = values.valueAt(i);
+        final Item item = mItems.get(id);
+        if (item != null && item.editable) {
+            // Set the item's text to the text wrapped in the AutofillValue.
+            item.text = value.getTextValue();
+        } else if (item == null) {
+            // Component not found, so no-op.
+        } else {
+            // Component not editable, so no-op.
+        }
+    }
+    postInvalidate();
